@@ -825,6 +825,39 @@ button.submit.circle:before {
     margin: -1px;
     height: 100%;
 }
+
+
+.errorReq {
+    font-size: 12px;
+    position: relative;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    top: -3px;
+    right: -940px;
+    z-index: 99;
+    height: 25px;
+    line-height: 1;
+    background-color: #e34f4f;
+    color: #fff;
+    font-weight: normal;
+    display: inline-block;
+    padding: 6px 8px;
+}
+.errorReq:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 6px 6px 0;
+    border-color: transparent #e34f4f;
+    display: block;
+    width: 0;
+    z-index: 1;
+    bottom: -6px;
+    left: 20%;
+}
+
+
 span.error {
     font-size: 12px;
     position: absolute;

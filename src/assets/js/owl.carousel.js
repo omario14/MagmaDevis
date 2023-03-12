@@ -2858,7 +2858,7 @@
 		if (!settings.dotsData) {
 			this._templates = [ $('<div>')
 				.addClass(settings.dotClass)
-				.append($('<span>'))
+				.append($('<div>'))
 				.prop('outerHTML') ];
 		}
 

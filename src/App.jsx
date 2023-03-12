@@ -3,10 +3,11 @@ import emailjs from '@emailjs/browser';
 import './App.css'
 import './App.scss'
 import { fournisseursData } from "./fournisseur";
-import { supportData } from "./support";
-import '../node_modules/font-awesome/css/font-awesome.min.css'; 
+import { supportData, formatData } from "./support";
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 function App() {
+  const [autre, setAutre] = useState(false);
   const [support, setSupport] = useState('');
   const [fournisseur, setFournisseur] = useState('');
   const [fournisseurs, setFournisseurs] = useState();
@@ -23,14 +24,17 @@ function App() {
   };
 
   const handleSupport = (e) => {
-    setSupport(e.target.value);
+   const i= supportData.filter((item)=>{return item.id===e.target.value})
+   setSupport(i[0])
+    
+ 
 
   }
   const onChangeFournisseur = (e) => {
     setFournisseur(fournisseursData[e.target.value]);
-    console.log(fournisseursData)
-    
-    
+
+
+
   }
 
   useEffect(() => {
@@ -85,38 +89,32 @@ function App() {
                     </aside>)
                     :
                     (<aside className="col-xl-3 col-lg-4">
-                      
-                          <div >
-                            <h2>{fournisseur.name}</h2>
-                            <p className="lead">Contact :</p>
-                            <ul className="list_ok">
-                              <li><span style={{ fontWeight: "bold" }}>Email : </span>{fournisseur.email}</li>
-                              {/* <li><span style={{ fontWeight: "bold" }}>Tel : </span>{data.tel}</li>
+
+                      <div >
+                        <h2>{fournisseur.name}</h2>
+                        <p className="lead">Contact :</p>
+                        <ul className="list_ok">
+                          <li><span style={{ fontWeight: "bold" }}>Email : </span>{fournisseur.email}</li>
+                          {/* <li><span style={{ fontWeight: "bold" }}>Tel : </span>{data.tel}</li>
                               <li><span style={{ fontWeight: "bold" }}>Address : </span>{data.address}</li> */}
 
-                            </ul>
-                          </div>
-                        
-
-                      
-
-
-
+                        </ul>
+                      </div>
                       <div className="summary_invoice">
-                      
-                            <p className="lead mt-4">Summary :</p>
+
+                        <p className="lead mt-4">Summary :</p>
                         <ul id="orderSumList">
                           <li id="optionGroup1Sum">
                             <a href="#!" id="optionGroup1SumReset">
-                            <i class="fa fa-times-circle"></i>
-                            </a> 
+                              <i class="fa fa-times-circle"></i>
+                            </a>
                             Carte Visite
                             <span class="price">52 DT</span>
                           </li>
                           <li id="optionGroup1Sum">
                             <a href="#!" id="optionGroup1SumReset">
-                            <i class="fa fa-times-circle"></i>
-                            </a> 
+                              <i class="fa fa-times-circle"></i>
+                            </a>
                             Recto * Verso
                             <span class="price">10 DT</span>
                           </li>
@@ -152,23 +150,20 @@ function App() {
                         <div id="middle-wizard">
                           <div className="step" >
                             <h3 className="main_question"><strong>1/3</strong>Sélectionnez le fournisseur idéal pour votre projet?</h3>
-                              {fournisseurs && fournisseurs.map((f,key)=>{
-                                return(
-                                  
-                                
-                            <div key={key} className="form-group radio_questions">
-                              <div className="radio">
-                                <input id={f.id} type="radio" className=" required" name="question_1" value={key} onChange={onChangeFournisseur} />
-                                <label for={f.id} className="radio-label">{f.id}. {f.name}</label>
-                              </div>
-                            </div>
-                            
-                            )})}
 
-                          
-                            
+                            {fournisseurs && fournisseurs.map((f, key) => {
+                              return (
 
 
+                                <div key={key} className="form-group radio_questions">
+                                  <div className="radio">
+                                    <input type="radio" style={{ marginRight: "10px" }} className=" required" name="question_1" value={key} onChange={onChangeFournisseur} />
+                                    <input id={f.id} type="radio" style={{ marginRight: "10px" }} className=" " name="question_1" value={key} onChange={onChangeFournisseur} />
+                                    <label htmlFor={f.id} className="radio-label">{f.id}. {f.name}</label>
+                                  </div>
+                                </div>
+                              )
+                            })}
                           </div>
 
                           <div className="step">
@@ -180,17 +175,44 @@ function App() {
                                 <div className="form-group select">
                                   <label>Support:</label>
                                   <div className="styled-select">
-                                    <select className="required" name="select_1" onChange={(e) => (handleSupport(e))}>
-                                      <option defaultValue=""  >Select</option>
-                                      {supportData && fournisseur && supportData.filter((item)=>(item.id.substring(0, item.id.indexOf('-'))===fournisseur.keyword)).map((s,key)=>{
+                                    <select className="required" name="select_1" onChange={handleSupport}>
+                                      <option value=""  >Select</option>
+                                      {supportData && fournisseur && supportData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === fournisseur.keyword)).map((s, key) => {
                                         return (
-                                      <option key={key} value={s.id}>{s.name}</option>
+                                          <option key={key} value={s.id}>{s.name}{key}</option>
                                         )
                                       })}
-                                      
+
                                     </select>
                                   </div>
                                 </div>
+                                {support &&
+                                  (
+                                    (support.id.substring(0, support.id.indexOf('-')) === 'xlprint' || support.id.substring(0, support.id.indexOf('-')) === 'simpfoc') &&
+                                    (<div className="form-group select">
+                                      <label>Format: {support.name.toLowerCase()}</label>
+                                      <div className="styled-select">
+                                        {support.name.toLowerCase() === 'autres' ?
+                                          <div className="form-group">
+                                          <input type="text" name="autres" className="required form-control" placeholder="Autres" />
+                                        </div>
+                                          :
+                                          
+                                          <select className="required" name="select_3">
+                                          <option value="" selected>Select</option>
+                                          {formatData && support && formatData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === support.id.substring(0, support.id.indexOf('-')))).map((s, key) => {
+                                            return (
+                                              <option key={key} value={s.id}>{s.contenu}</option>
+                                            )
+                                          })}
+                                        </select>
+                                        }
+
+                                      </div>
+                                    </div>)
+
+                                  )
+                                }
                                 {(support === 'livre' || support === 'brochure') &&
                                   <div className="form-group select">
                                     <label>Type de papier (intérieur):</label>
@@ -271,18 +293,7 @@ function App() {
                                     </div>
                                   </div>)
                                 }
-                                {(support === 'livre' || support === 'brochure') &&
-                                  (<div className="form-group select">
-                                    <label>Format:</label>
-                                    <div className="styled-select">
-                                      <select className="required" name="select_3">
-                                        <option value="" selected>Select</option>
-                                        <option value="Mailchimp">A4 (21 x 29,7 cm)</option>
-                                        <option value="Mailchimp">A5+ (16,5 x 23,5 cm)</option>
-                                      </select>
-                                    </div>
-                                  </div>)
-                                }
+
 
                               </div>
                             </div>
