@@ -3,14 +3,16 @@ import emailjs from '@emailjs/browser';
 import './App.css'
 import './App.scss'
 import { fournisseursData } from "./fournisseur";
-import { supportData, formatData } from "./support";
+import { supportData, formatData, papierInterieur, papierCouverture, finitionData, faconnageData, impressionData } from "./support";
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 function App() {
-  const [autre, setAutre] = useState(false);
+  const [open, setOpen] = useState(false);
   const [support, setSupport] = useState('');
   const [fournisseur, setFournisseur] = useState('');
-  const [fournisseurs, setFournisseurs] = useState();
+  const [fournisseurs, setFournisseurs] = useState([]);
+  const [num, setNum] = useState(1);
+  const [qt, setQt] = useState(1);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -24,17 +26,42 @@ function App() {
   };
 
   const handleSupport = (e) => {
-   const i= supportData.filter((item)=>{return item.id===e.target.value})
-   setSupport(i[0])
-    
- 
+    const i = supportData.filter((item) => { return item.id === e.target.value })
+    setSupport(i[0]);
+
+
+
 
   }
   const onChangeFournisseur = (e) => {
     setFournisseur(fournisseursData[e.target.value]);
-
-
-
+    setSupport('');
+  }
+  const onChangeNum = (e) => {
+    setNum(e.target.value);
+  }
+  let incNum = () => {
+    if (num < 10) {
+      setNum(Number(num) + 1);
+    }
+  }
+  let decNum = () => {
+    if (num > 1) {
+      setNum(num - 1);
+    }
+  }
+  const onChangeQuantite = (e) => {
+    setQt(e.target.value);
+  }
+  let incQt = () => {
+    if (qt < 10) {
+      setQt(Number(qt) + 1);
+    }
+  }
+  let decQt = () => {
+    if (qt > 1) {
+      setQt(qt - 1);
+    }
   }
 
   useEffect(() => {
@@ -153,8 +180,6 @@ function App() {
 
                             {fournisseurs && fournisseurs.map((f, key) => {
                               return (
-
-
                                 <div key={key} className="form-group radio_questions">
                                   <div className="radio">
                                     <input type="radio" style={{ marginRight: "10px" }} className=" required" name="question_1" value={key} onChange={onChangeFournisseur} />
@@ -173,128 +198,320 @@ function App() {
 
                               <div className="col-lg-10">
                                 <div className="form-group select">
-                                  <label>Support:</label>
+                                  <label>Support: </label>
                                   <div className="styled-select">
                                     <select className="required" name="select_1" onChange={handleSupport}>
-                                      <option value=""  >Select</option>
+                                      <option defaultValue=""  >Select</option>
                                       {supportData && fournisseur && supportData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === fournisseur.keyword)).map((s, key) => {
                                         return (
-                                          <option key={key} value={s.id}>{s.name}{key}</option>
+                                          <option key={key} value={s.id}>{s.name}</option>
                                         )
                                       })}
 
                                     </select>
                                   </div>
                                 </div>
-                                {support &&
-                                  (
-                                    (support.id.substring(0, support.id.indexOf('-')) === 'xlprint' || support.id.substring(0, support.id.indexOf('-')) === 'simpfoc') &&
-                                    (<div className="form-group select">
-                                      <label>Format: {support.name.toLowerCase()}</label>
-                                      <div className="styled-select">
-                                        {support.name.toLowerCase() === 'autres' ?
-                                          <div className="form-group">
-                                          <input type="text" name="autres" className="required form-control" placeholder="Autres" />
+                                {support && support.name.toLowerCase() === 'autres' ?
+                                  <textarea id="autres" className="required form-control" style={{height:"102px"}} name="autres"
+                                    rows="5" cols="33" placeholder='Parlez-nous de votre produit...'>
+                                    
+                                  </textarea>
+                                  :
+                                  <div>
+                                    {support &&
+                                      (
+                                        ((support.id.substring(0, support.id.indexOf('-')) === 'xlduosky' || support.id.substring(0, support.id.indexOf('-')) === 'simpfoc') && (support.name.toLowerCase() !== "winflag")) &&
+                                        (<div className="form-group select">
+                                          <label>Format: </label>
+                                          <div className="styled-select">
+
+                                            <select className="required" name="select_3">
+                                              <option value="" selected>Select</option>
+                                              {formatData && support && formatData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === support.id.substring(0, support.id.indexOf('-')))).map((s, key) => {
+                                                return (
+                                                  <option key={key} value={s.id}>{s.contenu}</option>
+                                                )
+                                              })}
+                                            </select>
+
+
+                                          </div>
+                                        </div>)
+
+                                      )
+                                    }
+                                    {support && (["x-displays", "roll up", "rollup one.r800", "banderole", "winflag"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Impression :</label>
+                                        <div className="styled-select">
+                                          <select className="required" name="impression">
+                                            <option value="" selected>Select</option>
+                                            {impressionData && impressionData.map((i, key) => {
+
+                                              return (
+                                                <option key={key} value={i.contenu} >{i.contenu}</option>
+                                              )
+                                            })}
+                                          </select>
                                         </div>
-                                          :
-                                          
-                                          <select className="required" name="select_3">
-                                          <option value="" selected>Select</option>
-                                          {formatData && support && formatData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === support.id.substring(0, support.id.indexOf('-')))).map((s, key) => {
-                                            return (
-                                              <option key={key} value={s.id}>{s.contenu}</option>
-                                            )
-                                          })}
-                                        </select>
-                                        }
+                                      </div>
+                                    }
+                                    {support && (["x-displays", "roll up", "rollup one.r800", "banderole", "winflag"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Quantité : </label>
+                                              <div className="form-group">
+                                                <div class="number-input-container">
+                                                  <button
+                                                    type="button"
+                                                    class="button-decrement"
+                                                    onClick={decQt}
+                                                    data-input-id="hue"
+                                                    data-operation="decrement"
+                                                  ></button>
+                                                  <div class="number-input">
+                                                    <input type="number" value={qt} name="quantite" className="required form-control" placeholder="Pages" onChange={onChangeQuantite} />
+                                                  </div>
+                                                  <button
+                                                    type="button"
+                                                    class="button-increment"
+                                                    onClick={incQt}
+                                                    data-input-id="saturation"
+                                                    data-operation="increment"
+                                                  ></button>
+                                                </div>
+                                              </div>
+                                      </div>
+                                    }
+                                    {support && (["banderole", "winflag"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Finitions :</label>
+                                        <div className="styled-select">
+                                          <select className="required" name="finition">
+                                            <option value="" selected>Select</option>
+                                            
+                                                <option value="4 Oeillets" >4 Oeillets</option>
+                                           
+                                          </select>
+                                        </div>
+                                      </div>
+                                    }
+                                    {support && (["banderole", "winflag"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Pieds :</label>
+                                        <div className="styled-select">
+                                          <select className="required" name="pieds">
+                                            <option value="" selected>Select</option>
+                                                <option value="Pied platine 7,5 kg Idéal pour sols durs" >Pied platine 7,5 kg Idéal pour sols durs</option>
+                                                <option value="Pied parasol 17 L" >Pied parasol 17 L</option>
+                                                <option value="Pied Forant à visser, terre, neige ou sable" >Pied Forant à visser, terre, neige ou sable</option>                                      
+                                          </select>
+                                        </div>
+                                      </div>
+                                    }
+                                    {support && (["winflag"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Format :</label>
+                                        <div className="styled-select">
+                                          <select className="required" name="pieds">
+                                            <option value="" selected>Select</option>
+                                                <option value="2M30" >2M30</option>
+                                                <option value="3M50" >3M50</option>
+                                                <option value="4M80" >4M80</option>                                      
+                                                <option value="6M50" >6M50</option>                                      
+                                          </select>
+                                        </div>
+                                      </div>
+                                    }
+                                    {support && (["livres", "brochures", "catalogues", "affiches", "carte de visite", "flyer", "dépliant 2 volets", "dépliant 3 volets", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Type de papier :</label>
+                                        <div className="styled-select">
+                                          <select className="required" name="select_2">
+                                            <option value="" selected>Select</option>
+                                            {papierInterieur && papierInterieur.map((p, key) => {
+
+                                              return (
+                                                <option key={key} value={p.contenu} >{p.contenu}</option>
+                                              )
+                                            })}
+                                          </select>
+                                        </div>
+                                      </div>
+                                    }
+                                    {support && (["livres", "brochures", "catalogues", "affiches", "carte de visite", "flyer", "dépliant 2 volets", "dépliant 3 volets", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+                                        <label>Nombre de Couleur <img src="src/assets/img/iconcolorpalette.png" className='m-0 p-0' width={20} /> </label>
+                                        <div className="styled-select">
+                                          <select className="required" name="select_4">
+                                            <option value="" selected>Select</option>
+                                            <option value="1 Couleur">1 Couleur</option>
+                                            <option value="2 Couleurs">2 Couleurs</option>
+                                            <option value="4 Couleurs">4 Couleurs</option>
+                                            <option value="5 Couleurs">5 Couleurs</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    }
+
+
+                                    {support && (["livres", "brochures", "catalogues", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                      <div className="form-group select">
+
+                                        <div className="row">
+
+                                          <div className="col-sm-6">
+                                            <label>Nombre de Page : </label>
+                                            <div className="form-group">
+                                              <div class="number-input-container">
+                                                <button
+                                                  type="button"
+                                                  class="button-decrement"
+                                                  onClick={decNum}
+                                                  data-input-id="hue"
+                                                  data-operation="decrement"
+                                                ></button>
+                                                <div class="number-input">
+                                                  <input type="number" value={num} name="nbrPage" className="required form-control" placeholder="Pages" onChange={onChangeNum} />
+                                                </div>
+                                                <button
+                                                  type="button"
+                                                  class="button-increment"
+                                                  onClick={incNum}
+                                                  data-input-id="saturation"
+                                                  data-operation="increment"
+                                                ></button>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div className="col-sm-6">
+                                            <label>Type de Papier (couverture) : </label>
+                                            <div className="styled-select">
+                                              <select className="required" name="select_5">
+                                                <option value="" selected>Select</option>
+                                                {papierCouverture && papierCouverture.map((p, key) => {
+                                                  return (
+                                                    <option key={key} value={p}>{p.contenu}</option>
+                                                  )
+                                                })}
+
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div  className="row">
+                                          <img onClick={(e) => { e.preventDefault(), setOpen(!open) }} className={open ? "shift " : "rot"} src="./src/assets/img/shift.png" />
+                                        </div>
 
                                       </div>
-                                    </div>)
+                                    }
+                                    <div className={open ? "panel-collapse" : "panel-collapse panel-close"} >
+                                      
+                                      {support && (["livres", "brochures", "catalogues", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                        <div className="form-group select">
 
-                                  )
-                                }
-                                {(support === 'livre' || support === 'brochure') &&
-                                  <div className="form-group select">
-                                    <label>Type de papier (intérieur):</label>
-                                    <div className="styled-select">
-                                      <select className="required" name="select_2">
-                                        <option value="" selected>Select</option>
-                                        <option value="Papier offset">Papier offset 80 gr</option>
-                                        <option value="Papier offset">Papier offset 100 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 110 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 135 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 170 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 200 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 250 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 300 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 350 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 110 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 135 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 170 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 200 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 250 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 300 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 350 gr</option>
-                                        <option value="Papier bristol">Papier bristol 170 gr</option>
-                                        <option value="Papier bristol">Papier bristol 200 gr</option>
-                                        <option value="Papier bristol">Papier bristol 250 gr</option>
-                                        <option value="Papier bristol">Papier bristol 300 gr</option>
-                                        <option value="Papier bristol">Papier bristol 350 gr</option>
+                                          <div className="row">
+                                            <div className="col-sm-6">
+                                              <div className="form-group select">
+                                                <label>Format (couverture) : </label>
+                                                <div className="styled-select">
+                                                  {support.name.toLowerCase() === 'autres' ?
+                                                    <input type="text" name="autres" className="required form-control" placeholder="Autres" />
+                                                    :
 
+                                                    <select className="required" name="select_6">
+                                                      <option value="" selected>Select</option>
+                                                      {formatData && support && formatData.filter((item) => (item.id.substring(0, item.id.indexOf('-')) === support.id.substring(0, support.id.indexOf('-')))).map((s, key) => {
+                                                        return (
+                                                          <option key={key} value={s.id}>{s.contenu}</option>
+                                                        )
+                                                      })}
+                                                    </select>
+                                                  }
 
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <label>Nombre de Couleur <img src="src/assets/img/iconcolorpalette.png" className='m-0 p-0' width={20} /> (couverture) : </label>
+                                              <div className="styled-select">
+                                                <select className="required" name="select_7">
+                                                  <option value="" selected>Select</option>
+                                                  <option value="1 Couleur">1 Couleur</option>
+                                                  <option value="2 Couleurs">2 Couleurs</option>
+                                                  <option value="4 Couleurs">4 Couleurs</option>
+                                                  <option value="5 Couleurs">5 Couleurs</option>
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      }
+                                      {support && (["livres", "brochures", "catalogues", "carte de visite", "flyer", "dépliant 2 volets", "dépliant 3 volets", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                        <div className="form-group select">
+                                          <label>Façonnage : </label>
+                                          <div className="styled-select">
+                                            <select className="required" name="select_8">
+                                              <option value="" selected>Select</option>
+                                              {faconnageData && faconnageData.map((f, key) => {
+                                                return (
+                                                  <option key={key} value={f}>{f.contenu}</option>
+                                                )
+                                              })}
+                                            </select>
+                                          </div>
+                                        </div>
+                                      }
 
-                                      </select>
+                                      {support && (["livres", "brochures", "catalogues", "notebook", "semainier"].some(item => support.name.toLowerCase() === item)) &&
+                                        <div className="form-group select">
+                                          <div className="row">
+                                            <div className="col-sm-6">
+                                              <label>Finition : </label>
+                                              <div className="styled-select">
+                                                <select className="required" name="select_9">
+                                                  <option value="" selected>Select</option>
+                                                  {finitionData && finitionData.map((f, key) => {
+                                                    return (
+                                                      <option key={key} value={f}>{f.contenu}</option>
+                                                    )
+                                                  })}
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <label>Quantité : </label>
+                                              <div className="form-group">
+                                                <div class="number-input-container">
+                                                  <button
+                                                    type="button"
+                                                    class="button-decrement"
+                                                    onClick={decQt}
+                                                    data-input-id="hue"
+                                                    data-operation="decrement"
+                                                  ></button>
+                                                  <div class="number-input">
+                                                    <input type="number" value={qt} name="quantite" className="required form-control" placeholder="Pages" onChange={onChangeQuantite} />
+                                                  </div>
+                                                  <button
+                                                    type="button"
+                                                    class="button-increment"
+                                                    onClick={incQt}
+                                                    data-input-id="saturation"
+                                                    data-operation="increment"
+                                                  ></button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      }
+
                                     </div>
                                   </div>
-                                }
-                                {(support === 'livre' || support === 'brochure') &&
-                                  (<div className="form-group select ">
-                                    <label>Type de papier (couverture):</label>
-                                    <div className="styled-select">
-                                      <select className="required" name="select_2">
-                                        <option value="" selected>Select</option>
-                                        <option value="Papier couché mat">Papier couché mat 300 gr</option>
-                                        <option value="Papier couché mat">Papier couché mat 350 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 300 gr</option>
-                                        <option value="Papier couché brillant">Papier couché brillant 350 gr</option>
-                                        <option value="Papier bristol">Papier bristol 300 gr</option>
-                                        <option value="Papier bristol">Papier bristol 350 gr</option>
 
-                                      </select>
-                                    </div>
-                                  </div>)
                                 }
-                                {(support === 'livre' || support === 'brochure') &&
-                                  (<div className="form-group select">
-                                    <label>Finition:</label>
-                                    <div className="styled-select">
-                                      <select className="required" name="select_3">
-                                        <option value="" selected>Select</option>
-                                        <option value="CampaignMonitor">Piqué</option>
-                                        <option value="Mailchimp">Dos Caré colé</option>
-                                        <option value="Mailchimp">Dos carré collé cousu</option>
-                                      </select>
-                                    </div>
-                                  </div>)
-                                }
-                                {(support === 'livre' || support === 'brochure' || support === "carte de visite") &&
-                                  (<div className="form-group select">
-                                    <label>Nombre de couleur:</label>
-                                    <div className="styled-select">
-                                      <select className="required" name="select_3">
-                                        <option value="" selected>Select</option>
-                                        <option value="CampaignMonitor">1 Couleur</option>
-                                        <option value="Mailchimp">2 Couleurs</option>
-                                        <option value="Mailchimp">4 Couleurs</option>
-                                        <option value="Mailchimp">1 Couleur R/V</option>
-                                        <option value="Mailchimp">2 Couleurs R/V</option>
-                                        <option value="Mailchimp">4 Couleurs R/V</option>
-                                      </select>
-                                    </div>
-                                  </div>)
-                                }
-
-
                               </div>
                             </div>
                           </div>
