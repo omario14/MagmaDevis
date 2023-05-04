@@ -5,7 +5,7 @@
 --color-mustard-midtone: #9c7830;
 }
 .summary_invoice{
-    border-top: 2px solid #ddd;
+   
    
 }
 
@@ -74,12 +74,6 @@
 }
 .fa, .fas {
     font-weight: 1500;
-}
-.fa, .far, .fas {
-    font-family: "Font Awesome 5 Free";
-}
-.fa-times-circle:before {
-    content: "\f057";
 }
 
 button {
@@ -270,4 +264,23 @@ input[type="number"] {
   transform: scale(1.02);
   transform: rotate(180deg);
   
+  }
+
+
+  a.disabled {
+    opacity: 0.5;
+    color:#bebebe;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .envoyer:hover{
+    background-color: #8ea8b3;
+
+  }
+
+  @media only screen and (max-width: 767px){
+    aside{
+        display: none;
+    }
   }

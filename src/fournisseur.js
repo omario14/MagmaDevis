@@ -17,7 +17,7 @@ export const fournisseursData = [
     },
     {
       id:3,
-      keyword:"xlduosky",
+      keyword:"xlduo",
       name: "XL PRINT",
       email: "reception@graphianet.com",
       tel: "+216 71 808 628",
@@ -25,7 +25,7 @@ export const fournisseursData = [
     },
     {
       id:4,
-      keyword:"xlduosky",
+      keyword:"skyflag",
       name: "SKYFLAG",
       email: "commercial@skyflags.tn",
       tel: "+216 26 209 151",
@@ -33,7 +33,7 @@ export const fournisseursData = [
     },
     {
       id:5,
-      keyword:"xlduosky",
+      keyword:"xlduo",
       name: "DUO MAGHREB",
       email: "dp@duomaghreb.com",
       tel: "+216 26 209 151",
@@ -47,4 +47,13 @@ export const fournisseursData = [
       tel: "+216 26 209 151",
       address: "KM10 GP1-Ez zahra-Tunisie",
     },
+    {
+      id:7,
+      keyword:"sbcd",
+      name: "Magma",
+      email: "contact@magma-studio.tn",
+      tel: "+216 26 209 151",
+      address: "KM10 GP1-Ez zahra-Tunisie",
+    },
+    
   ];

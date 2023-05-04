@@ -10,14 +10,22 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.10.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.14",
+    "@react-email/render": "^0.0.6",
     "emailjs-com": "^3.2.0",
     "font-awesome": "^4.7.0",
     "icheck": "^1.0.2",
     "jquery": "^3.6.3",
+    "nodemailer": "^6.9.1",
+    "nodemailer-react": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icheck": "^0.3.8",
-    "sass": "^1.58.3"
+    "react-router-dom": "^6.9.0",
+    "sass": "^1.58.3",
+    "uid": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

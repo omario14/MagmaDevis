@@ -1,4 +1,6 @@
 export const supportData = [
+   
+    /********************** simpFoc ********************/
     {
         id: "simpfoc-0",
         name: "Livres",
@@ -44,36 +46,59 @@ export const supportData = [
         name: "Autres",
     },
 
-    /******************** XL PRINT ************************/
+    /******************** XL PRINT DUO ************************/
+   
     {
-        id: "xlduosky-11",
+        id: "xlduo-11",
         name: "X-Displays",
     },
     {
-        id: "xlduosky-12",
+        id: "xlduo-12",
         name: "Roll UP",
     },
     {
-        id: "xlduosky-13",
+        id: "xlduo-13",
         name: "Rollup One.R800",
     },
     {
-        id: "xlduosky-14",
+        id: "xlduo-14",
         name: "Banderole",
     },
     {
-        id: "xlduosky-15",
+        id: "xlduo-16",
+        name: "Autres",
+    },
+    /******************** skyflag ************************/
+   
+    {
+        id: "skyflag-11",
+        name: "X-Displays",
+    },
+    {
+        id: "skyflag-12",
+        name: "Roll UP",
+    },
+    {
+        id: "skyflag-13",
+        name: "Rollup One.R800",
+    },
+    {
+        id: "skyflag-14",
+        name: "Banderole",
+    },
+    {
+        id: "skyflag-15",
         name: "WINFLAG",
     },
     {
-        id: "xlduosky-16",
+        id: "skyflag-16",
         name: "Autres",
     },
 
 
 
     /************************ SBCD ****************************/
-
+    
     {
         id: "sbcd-17",
         name: "Stylo",
@@ -81,6 +106,10 @@ export const supportData = [
     {
         id: "sbcd-18",
         name: "Clé USB",
+    },
+    {
+        id: "sbcd-19",
+        name: "Autre Produit",
     },
 ]
 
@@ -90,48 +119,75 @@ export const formatData = [
     {
         id: "simpfoc-A5",
         contenu: "A5 (14,8x21 cm)",
+        prix:0.100
     },
     {
         id: "simpfoc-A5+",
         contenu: "A5+ (16,5x23,5 cm)",
+        prix:0.200
     },
     {
         id: "simpfoc-A4",
         contenu: "A4 (21x29,7 cm)",
+        prix:0.500
     },
     {
         id: "simpfoc-A3",
         contenu: "A3 (29,7x42 cm)",
+        prix:1.000
     },
     {
         id: "simpfoc-A2",
         contenu: "A2 (42x59,4 cm)",
+        prix:1.100
     },
     {
         id: "simpfoc-A1",
         contenu: "A1 ( 59,4x84.1 cm)",
+        prix:1.500
     },
 
 
-    /*******************XL Print ***********************/
+    /*******************XL Print && DUO ***********************/
     {
-        id: "xlduosky-60",
+        id: "xlduo-60",
         contenu: "60 x 160 cm",
     },
     {
-        id: "xlduosky-80",
+        id: "xlduo-80",
         contenu: "80 x 180 cm",
     },
     {
-        id: "xlduosky-85",
+        id: "xlduo-85",
         contenu: "85 x 200 cm",
     },
     {
-        id: "xlduosky-100",
+        id: "xlduo-100",
         contenu: "100 x 200 cm",
     },
     {
-        id: "xlduosky-150",
+        id: "xlduo-150",
+        contenu: "150 x 200 cm",
+    },
+    /******************* SKYFLAG ***********************/
+    {
+        id: "skyflag-60",
+        contenu: "60 x 160 cm",
+    },
+    {
+        id: "skyflag-80",
+        contenu: "80 x 180 cm",
+    },
+    {
+        id: "skyflag-85",
+        contenu: "85 x 200 cm",
+    },
+    {
+        id: "skyflag-100",
+        contenu: "100 x 200 cm",
+    },
+    {
+        id: "skyflag-150",
         contenu: "150 x 200 cm",
     },
 
@@ -139,19 +195,19 @@ export const formatData = [
 
 export const impressionData = [
     {
-        id: "",
+        id: "1",
         contenu: "Bâche"
     },
     {
-        id: "",
+        id: "2",
         contenu: "Tissu"
     },
     {
-        id: "",
+        id: "3",
         contenu: "Winflag Maille polyester 120 g"
     },
     {
-        id: "",
+        id: "4",
         contenu: "Sublimation sur tissu Lightboost"
     }
 
@@ -159,39 +215,43 @@ export const impressionData = [
 
 export const papierInterieur = [
     {
-        id: "",
-        contenu: "Papier offset 80 gr"
+        id: "simpfoc-p80",
+        contenu: "Papier offset 80 gr",
+        prix:2.100
     },
     {
-        id: "",
-        contenu: "Papier offset 100 gr"
+        id: "simpfoc-p100",
+        contenu: "Papier offset 100 gr",
+        prix:2.100
     },
     {
-        id: "",
-        contenu: "Papier couché mat 110 gr"
+        id: "simpfoc-p110",
+        contenu: "Papier couché mat 110 gr",
+        prix:2.100
     },
     {
-        id: "",
-        contenu: "Papier couché mat 135 gr"
+        id: "simpfoc-p135",
+        contenu: "Papier couché mat 135 gr",
+        prix:2.100
     },
     {
-        id: "",
+        id: "simpfoc-p170",
         contenu: "Papier couché mat 170 gr"
     },
     {
-        id: "",
+        id: "simpfoc-p200",
         contenu: "Papier couché mat 200 gr"
     },
     {
-        id: "",
+        id: "simpfoc-p250",
         contenu: "Papier couché mat 250 gr"
     },
     {
-        id: "",
+        id: "simpfoc-p300",
         contenu: "Papier couché mat 300 gr"
     },
     {
-        id: "",
+        id: "simpfoc-p350",
         contenu: "Papier couché mat 350 gr"
     },
     {
