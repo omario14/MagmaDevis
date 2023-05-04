@@ -191,7 +191,7 @@ function App() {
 
                         <form name="example-1" id="wrapped" onSubmit={sendEmail}>
 
-                          <input id="website" name="website" type="text" defaultValue="" />
+                          <input id="website" name="website"  type="text" defaultValue="" />
                           <div id="middle-wizard">
                             <div className="step" >
                               <h3 className="main_question"><strong>1/3</strong>Sélectionnez le fournisseur idéal pour votre projet?</h3>
