@@ -205,7 +205,7 @@ function App() {
                                       <label htmlFor={f.id} className="radio-label">{f.id}. {f.name}</label>
                                     </div>
 
-                                  </div>
+                                  </div>  
                                 )
                               })}
                             </div>
