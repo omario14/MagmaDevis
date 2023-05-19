@@ -59,7 +59,8 @@ function App() {
         />)
       };
 
-      emailjs.send('service_yi9x66n', 'template_tn4wg88', templateParams, 'jqm4okl98h-Qa48IQ')
+      /**** Email Function  */
+      emailjs.send('service', 'template', templateParams, 'jqerokl98h-00000')
         .then((result) => {
           console.log(result.text);
         }, (error) => {
